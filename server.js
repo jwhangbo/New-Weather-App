@@ -15,11 +15,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.static(__dirname + '/public'));
 
-var public = __dirname + '/public/'
-console.log(public)
+var dpub = __dirname + '/public/'
+console.log(dpub)
 
 app.get('/', (request, response) => {
-    response.render(public + 'App.hbs');
+    response.render(dpub + 'App.hbs');
 });
 
 app.post('/', function(request, response) {
@@ -30,7 +30,7 @@ app.post('/', function(request, response) {
     setTimeout(()=> {
         history.push(dict);
         write_file(history);
-        response.render(public + 'App.hbs',{location: dict["location"], temperature: dict["temperature"] + "°C", summary: dict["summary"], latitude: dict["lat"], longitude: dict["lng"], file: read_file()});
+        response.render(dpub + 'App.hbs',{location: dict["location"], temperature: dict["temperature"] + "°C", summary: dict["summary"], latitude: dict["lat"], longitude: dict["lng"], file: read_file()});
 
     }, 2000)
    

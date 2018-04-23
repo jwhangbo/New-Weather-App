@@ -7,6 +7,7 @@ const fs = require('fs');
 var app = express();
 var dict = {};
 var history = [];
+var log_text = "";
 
 
 app.set('view engine', 'hbs')
@@ -41,6 +42,10 @@ function get_dict(location){
     get_location(location)
 };
 
+/**
+ * Finds the location using Google Maps API.
+ * @param {string} place - represents the coordinates of a location.
+ */
 function get_location(place){
     var link = `http://maps.googleapis.com/maps/api/geocode/json?address=${place}`
     request ({
@@ -62,7 +67,11 @@ function get_location(place){
     })
 
 }
-
+/**
+ * Gets the weather and returns a dictionary with the weather information.
+ * @param {string} lat - The latitude of the location.
+ * @param {string} lng - the longitude of the location.
+ */
 function get_weather(lat, lng){
     var link = `https://api.darksky.net/forecast/b10f1155187ae53296449ef6730b03d3/${lat},${lng}`;
     request({
@@ -77,12 +86,17 @@ function get_weather(lat, lng){
         }
     })
 }
-
+/**
+ * Appends list into search.json.
+ * @param {array} list - writes a list object into a json file.
+ */
 function write_file(list){
         fs.writeFileSync("search.json", JSON.stringify(list)); 
 };
 
-var log_text = ""
+/**
+ * reads a Json file and returns it into a string
+ */
 function read_file(){
     file = fs.readFileSync("search.json")
     var index_file = (-1 + JSON.parse(file.toString()).length)
@@ -92,7 +106,9 @@ function read_file(){
 }
 
 
-
+/**
+ * makes the server accessable via an internet browser
+ */
 app.listen(8080, () => {
     console.log('server is up on port 8080');
 });
